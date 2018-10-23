@@ -1,0 +1,72 @@
+<div class="page-header">
+  <h3>{{title}}</h3>
+</div>
+
+<input type="button" value="Create New" class="btn btn-secondary" (click)="onCreate(popup)">
+<table class="table">
+  <thead>
+    <tr>
+      <th>Initial</th>
+      <th>Name</th>
+      <th>Active</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let category of categories">
+      <td>{{category.initial}}</td>
+      <td>{{category.name}}</td>
+      <!-- <td>{{category.active}}</td> -->
+      <td>
+        <input type="checkbox" name="active" class="form-check-input" [(ngModel)]="category.active" disabled="disabled">
+      </td>
+      <td>
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-warning" title="Edit" (click)="onEdit(category._id,popup)">Edit</button> 
+          <button type="button" class="btn btn-danger" title="Delete" (click)="onDelete(category._id,popup)">Delete</button>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<ng-template #popup>
+ 
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{business}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" (ngSubmit)="onSubmit()">
+      
+      <div class="form-group">
+        <label class="control-label col-md-3" for="initial">Initial</label>
+        <div class="col-md-9">
+          <input type="text" class="form-control " id="initial" name="initial" placeholder="initial" [(ngModel)]="category.initial">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-md-3" for="Name">Name</label>
+        <div class="col-md-9">
+          <input type="text" class="form-control " id="Name" name="name" placeholder="Name" [(ngModel)]="category.name">
+        </div>
+      </div>
+      <div class="checkbox col-md-9">
+        <label>
+          Remember me <input type="checkbox" name="active" id="active" [(ngModel)]="category.active">
+        </label>
+      </div>
+      <input type="button" class="btn btn-default" value="Cancel">
+      <input type="submit" class="btn " (click)="modalRef.hide()" [value]="business"
+        [class.btn-danger]="business==='Delete'"
+        [class.btn-warning]="business==='Edit'"
+        [class.btn-success]="business==='Create'"
+      >
+    </form>
+
+  </div>
+
+  {{category|json}}
+</ng-template>
